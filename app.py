@@ -106,9 +106,10 @@ def hex_to_rgba(hex_color: str, alpha: float = 0.15) -> str:
 
 
 def render_card(s: dict):
-    free_badge  = '<span class="badge badge-free">🎟️ 무료</span>' if s["free"] else '<span class="badge badge-paid">💳 유료</span>'
+    is_free     = s.get("free", s["price"] == 0)
+    free_badge  = '<span class="badge badge-free">🎟️ 무료</span>' if is_free else '<span class="badge badge-paid">💳 유료</span>'
     mood_badges = "".join(f'<span class="badge badge-mood">{MOOD_EMOJI.get(m,"")} {m}</span>' for m in s["moods"])
-    price_txt   = "🎟️ 무료 입장" if s["free"] else f"💳 ₩{s['price']:,}"
+    price_txt   = "🎟️ 무료 입장" if is_free else f"💳 ₩{s['price']:,}"
     st.markdown(f"""
     <div class="place-card">
         <div class="card-title">{s['name']} {free_badge}</div>
