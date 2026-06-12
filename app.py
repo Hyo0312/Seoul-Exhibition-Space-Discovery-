@@ -348,6 +348,12 @@ elif page == "🏘️ Neighborhoods":
         with col_l:
             st.markdown("#### 🕸️ Atmosphere · Accessibility · Popularity")
             categories = ["Atmosphere", "Accessibility", "Popularity"]
+
+            def hex_to_rgba(hex_color, alpha=0.12):
+                h = hex_color.lstrip("#")
+                r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+                return f"rgba({r},{g},{b},{alpha})"
+
             fig_radar = go.Figure()
             for nb in selected_nbs:
                 d = NEIGHBORHOODS[nb]
@@ -357,7 +363,7 @@ elif page == "🏘️ Neighborhoods":
                     fill="toself",
                     name=nb,
                     line_color=d["color"],
-                    fillcolor=d["color"].replace(")", ", 0.08)").replace("rgb", "rgba") if "rgb" in d["color"] else d["color"] + "15",
+                    fillcolor=hex_to_rgba(d["color"], 0.12),
                 ))
             fig_radar.update_layout(
                 polar=dict(
